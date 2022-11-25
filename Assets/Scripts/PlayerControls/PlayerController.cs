@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,12 @@ public class PlayerController : MonoBehaviour
 
    [SerializeField] private float speed = 1;
    [SerializeField] private float mouseSensitivity = 1;
+   
+   public float Speed
+   {
+      get => speed;
+      set => speed = value;
+   }
 
    private void Awake()
    {

@@ -83,6 +83,11 @@ public class AbilityComponent : MonoBehaviour
         {
             StopAbility(ability);
         };
+        
+        playerInputActions.FindAction(inputBinding).canceled += ctx =>
+        {
+            StopAbility(ability);
+        };
 
     }
 }
