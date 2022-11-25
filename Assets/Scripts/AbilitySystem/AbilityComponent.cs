@@ -41,6 +41,17 @@ public class AbilityComponent : MonoBehaviour
 
         return true;
     }
+    
+    public bool RemoveAbility(ASAbilityInterface oldAbility)
+    {
+        if (_currentAbilities.Contains(oldAbility)) { return true; }
+        
+        UnBindAbility(oldAbility.GetBindName(), oldAbility);
+        _currentAbilities.Remove(oldAbility);
+
+
+        return true;
+    }
 
     public bool StartAbility(ASAbilityInterface ability)
     {
@@ -85,6 +96,29 @@ public class AbilityComponent : MonoBehaviour
         };
         
         playerInputActions.FindAction(inputBinding).canceled += ctx =>
+        {
+            StopAbility(ability);
+        };
+
+    }
+    
+    void UnBindAbility(string inputBinding,ASAbilityInterface ability)
+    {
+        if (!_currentAbilities.Contains(ability)) return;
+
+        Debug.Log($"Binding {ability.GetName()}");
+
+        playerInputActions.FindAction(inputBinding).started -= ctx =>
+        {
+            StartAbility(ability);
+        };
+        
+        playerInputActions.FindAction(inputBinding).performed -= ctx =>
+        {
+            StopAbility(ability);
+        };
+        
+        playerInputActions.FindAction(inputBinding).canceled -= ctx =>
         {
             StopAbility(ability);
         };
